@@ -1,0 +1,9 @@
+{
+	"name": "covidreporting-kkg",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8055e1c2-5464-4210-86bd-2e0d74273dd8",
+		"tenantId": "f6c2a79f-48e8-421f-8059-bfec2db91d88"
+	}
+}
