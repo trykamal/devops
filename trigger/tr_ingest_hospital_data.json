@@ -20,7 +20,7 @@
 			"recurrence": {
 				"frequency": "Day",
 				"interval": 10,
-				"startTime": "2022-01-04T11:45:00",
+				"startTime": "2022-01-04T11:42:00",
 				"timeZone": "India Standard Time"
 			}
 		}
