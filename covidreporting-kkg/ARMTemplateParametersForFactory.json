@@ -11,6 +11,9 @@
 		"ls_adls_covidreportingdl_accountKey": {
 			"value": ""
 		},
+		"ls_cases_records_connectionString": {
+			"value": ""
+		},
 		"ls_databricks_accessToken": {
 			"value": ""
 		},
