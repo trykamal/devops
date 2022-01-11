@@ -17,6 +17,9 @@
 		"ls_databricks_accessToken": {
 			"value": ""
 		},
+		"ls_hospital_daily_connectionString": {
+			"value": ""
+		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"value": "https://covidreportingdl1231.dfs.core.windows.net"
 		},

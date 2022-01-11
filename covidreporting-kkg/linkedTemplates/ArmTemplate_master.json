@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'ls_databricks'"
 		},
+		"ls_hospital_daily_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_hospital_daily'"
+		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://covidreportingdl1231.dfs.core.windows.net"
@@ -73,6 +77,9 @@
 					},
 					"ls_databricks_accessToken": {
 						"value": "[parameters('ls_databricks_accessToken')]"
+					},
+					"ls_hospital_daily_connectionString": {
+						"value": "[parameters('ls_hospital_daily_connectionString')]"
 					},
 					"ls_adls_covidreportingdl_properties_typeProperties_url": {
 						"value": "[parameters('ls_adls_covidreportingdl_properties_typeProperties_url')]"
