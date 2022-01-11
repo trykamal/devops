@@ -1,0 +1,12 @@
+{
+	"name": "ls_cases_records",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=covidsqlserver3212.database.windows.net;initial catalog=covid-db;user id=admin3212",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEE2NEM3QzVFLTA3OTctNDI3Qi05MzQ1LTM1OUQ0RTQxNUY2RV8wM2Q1ZGIwMS05MTM4LTRlY2QtYTU4OS1jYWJjNjVhNTBlNDQiDQp9"
+		}
+	}
+}
