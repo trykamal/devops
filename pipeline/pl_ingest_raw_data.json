@@ -192,6 +192,9 @@
 			}
 		],
 		"concurrency": 1,
+		"folder": {
+			"name": "ingest"
+		},
 		"annotations": []
 	}
 }

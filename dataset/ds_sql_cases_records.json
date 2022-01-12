@@ -5,6 +5,9 @@
 			"referenceName": "ls_cases_records",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "sql"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
