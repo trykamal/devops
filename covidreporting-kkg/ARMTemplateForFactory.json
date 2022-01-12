@@ -35,7 +35,7 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().sourceBaseURL}"
 		},
-		"tr_ingest_population_data_properties_typeProperties_scope": {
+		"tr_population_data_arrived_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/91d489d3-64a1-4ae2-9a72-987e9c92631c/resourceGroups/reporting-rg/providers/Microsoft.Storage/storageAccounts/covidreportingsa3212"
 		}
@@ -1659,36 +1659,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tr_ingest_population_data')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pl_ingest_raw_data",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/population/blobs/population",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('tr_ingest_population_data_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pl_ingest_raw_data')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/df_hospital_raw_data')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1842,6 +1812,92 @@
 				"[concat(variables('factoryId'), '/datasets/df_raw_cases')]",
 				"[concat(variables('factoryId'), '/datasets/ds_lookup_country')]",
 				"[concat(variables('factoryId'), '/datasets/ds_processed_cases')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_execute_population_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ExecutePopulationRaw",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pl_ingest_raw_data",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ExecuteSparkNotebook",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "ExecutePopulationRaw",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pl_databricks_population_processed",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Execute"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_ingest_raw_data')]",
+				"[concat(variables('factoryId'), '/pipelines/pl_databricks_population_processed')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tr_population_data_arrived')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_execute_population_pipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/population/blobs/population",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('tr_population_data_arrived_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_execute_population_pipeline')]"
 			]
 		}
 	]
